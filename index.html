@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="login-page" class="login-container">
+        <div class="login-form">
+            <div class="login-header">
+                <h1>Gerenciador de Tarefas</h1>
+                <p>Faça login para acessar suas tarefas</p>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Seu email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" placeholder="Sua senha" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Entrar</button>
+                <div class="form-footer">
+                    <a href="#" id="forgot-password">Esqueceu a senha?</a>
+                    <a href="#" id="create-account">Criar conta</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgot-password-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Recuperar Senha</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="forgot-password-form">
+                <div class="form-group">
+                    <label for="recovery-email">Email</label>
+                    <input type="email" id="recovery-email" placeholder="Seu email" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Enviar Link de Recuperação</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Account Modal -->
+    <div id="create-account-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Criar Conta</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="create-account-form">
+                <div class="form-group">
+                    <label for="new-name">Nome Completo</label>
+                    <input type="text" id="new-name" placeholder="Seu nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-email">Email</label>
+                    <input type="email" id="new-email" placeholder="Seu email" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Senha</label>
+                    <input type="password" id="new-password" placeholder="Sua senha" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirmar Senha</label>
+                    <input type="password" id="confirm-password" placeholder="Confirme sua senha" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Criar Conta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Page (Initially Hidden) -->
+    <div id="dashboard-page" style="display: none;">
+        <header>
+            <div class="logo">Gerenciador de Tarefas</div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-tab="home">Início</a></li>
+                    <li><a href="#" class="nav-link" data-tab="tasks">Minhas Tarefas</a></li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <img src="/api/placeholder/40/40" alt="Usuário">
+                <span id="username">Usuário</span>
+                <button id="logout-btn" class="btn" style="margin-left: 15px;">Sair</button>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Tab content -->
+            <div class="tab-content">
+                <!-- Home Tab -->
+                <div id="home-tab" class="tab-pane active">
+                    <h2>Bem-vindo ao seu Gerenciador de Tarefas</h2>
+                    <p>Organize e gerencie suas tarefas de forma eficiente.</p>
+                    
+                    <div class="dashboard">
+                        <div class="card">
+                            <h3>Total de Tarefas</h3>
+                            <div class="number">12</div>
+                        </div>
+                        <div class="card">
+                            <h3>Tarefas Pendentes</h3>
+                            <div class="number">5</div>
+                        </div>
+                        <div class="card">
+                            <h3>Tarefas Concluídas</h3>
+                            <div class="number">7</div>
+                        </div>
+                    </div>
+                    
+                    <div class="tasks-header">
+                        <h2>Tarefas Recentes</h2>
+                        <button id="add-task-btn" class="btn">Nova Tarefa</button>
+                    </div>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Prioridade</th>
+                                <th>Status</th>
+                                <th>Data Limite</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-tasks">
+                            <!-- As tarefas serão carregadas dinamicamente via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Tasks Tab -->
+                <div id="tasks-tab" class="tab-pane">
+                    <div class="tab-container">
+                        <div class="tabs">
+                            <div class="tab active" data-tabcontent="all-tasks">Todas</div>
+                            <div class="tab" data-tabcontent="pending-tasks">Pendentes</div>
+                            <div class="tab" data-tabcontent="completed-tasks">Concluídas</div>
+                        </div>
+                        
+                        <div class="tab-content">
+                            <!-- All Tasks Tab -->
+                            <div id="all-tasks" class="tab-pane active">
+                                <div class="tasks-header">
+                                    <h2>Todas as Tarefas</h2>
+                                    <button id="add-task-btn-all" class="btn">Nova Tarefa</button>
+                                </div>
+                                
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Título</th>
+                                            <th>Descrição</th>
+                                            <th>Prioridade</th>
+                                            <th>Status</th>
+                                            <th>Data Limite</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="all-tasks-list">
+                                        <!-- As tarefas serão carregadas dinamicamente via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Pending Tasks Tab -->
+                            <div id="pending-tasks" class="tab-pane">
+                                <div class="tasks-header">
+                                    <h2>Tarefas Pendentes</h2>
+                                    <button id="add-task-btn-pending" class="btn">Nova Tarefa</button>
+                                </div>
+                                
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Título</th>
+                                            <th>Descrição</th>
+                                            <th>Prioridade</th>
+                                            <th>Status</th>
+                                            <th>Data Limite</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pending-tasks-list">
+                                        <!-- As tarefas pendentes serão carregadas dinamicamente via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Completed Tasks Tab -->
+                            <div id="completed-tasks" class="tab-pane">
+                                <div class="tasks-header">
+                                    <h2>Tarefas Concluídas</h2>
+                                </div>
+                                
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Título</th>
+                                            <th>Descrição</th>
+                                            <th>Prioridade</th>
+                                            <th>Data de Conclusão</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="completed-tasks-list">
+                                        <!-- As tarefas concluídas serão carregadas dinamicamente via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Task Modal -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="task-modal-title">Adicionar Tarefa</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="task-form">
+                <input type="hidden" id="task-id">
+                <div class="form-group">
+                    <label for="task-title">Título</label>
+                    <input type="text" id="task-title" placeholder="Título da tarefa" required>
+                </div>
+                <div class="form-group">
+                    <label for="task-description">Descrição</label>
+                    <textarea id="task-description" rows="3" placeholder="Descrição da tarefa"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="task-priority">Prioridade</label>
+                    <select id="task-priority" required>
+                        <option value="baixa">Baixa</option>
+                        <option value="media">Média</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-status">Status</label>
+                    <select id="task-status" required>
+                        <option value="pendente">Pendente</option>
+                        <option value="em_progresso">Em Progresso</option>
+                        <option value="concluida">Concluída</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-due-date">Data Limite</label>
+                    <input type="date" id="task-due-date" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmar Exclusão</h2>
+                <span class="close">&times;</span>
+            </div>
+            <p>Tem certeza que deseja excluir esta tarefa?</p>
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <button id="cancel-delete" class="btn">Cancelar</button>
+                <button id="confirm-delete" class="btn btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
